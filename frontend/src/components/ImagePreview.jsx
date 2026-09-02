@@ -8,8 +8,8 @@ return null;
 const imageUrl = URL.createObjectURL(file);
 
 return(
-    <div>
-        <h2>preview</h2>
+  <div className="image-preview">
+        <h2>Original image </h2>
 
 
         <img

@@ -6,17 +6,14 @@ import ImageInfo from "./components/ImageInfo";
 import "./App.css";
 
 function App() {
-  const [processingTime, setProcessingTime] = useState(null);
-  const [file, setFile] = useState(null);
+
+const [file, setFile] = useState(null);
+const [preview, setPreview] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const clearAll = () => {
-  setFile(null);
-  setResult(null);
-  setLoading(false);
-  setError(null);
-};
+  const[processingTime,setProcessingTime]= useState(null);
+ 
 
   const validateFile = (selectedFile) => {
     const allowTypes = [
@@ -39,25 +36,17 @@ function App() {
   };
 
   const clearImage = () => {
-    setFile(null);
-    setResult(null);
-    setError(null);
-    setProcessingTime(null);
+ setError(null);
+setFile(selectedFile);
+setPreview(URL.createObjectURL(selectedFile));
+setResult(null);
   };
-    const downloadImage = () => {
-  if (!result) {
-    return;
-  }
-
-  const link = document.createElement("a");
-
-  link.href = result;
-  link.download = "background-removed.png";
-
-  link.click();
-};
   const handleFileSelect = (selectedFile) => {
     if (!selectedFile) {
+      setError(null);
+setFile(selectedFile);
+setPreview(URL.createObjectURL(selectedFile));
+setResult(null);
       return;
     }
 
@@ -98,10 +87,19 @@ function App() {
           body: formData,
         }
       );
+if (!response.ok) {
 
-      if (!response.ok) {
-        throw new Error("Failed to remove background");
-      }
+  const errorData = await response.json();
+
+  throw new Error(
+    errorData.detail || "Failed to remove background"
+  );
+}
+
+const backendProcessingTime =
+  response.headers.get("X-Processing-Time");
+
+setProcessingTime(backendProcessingTime);
 
       const blob = await response.blob();
 
@@ -116,9 +114,9 @@ function App() {
 
     } catch (error) {
       console.error(error);
-      setError(error.message);
-
-    } finally {
+      setError("Something went wrong while removing the background. Please try again.");
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -138,10 +136,15 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>🪄 AI Background Remover</h1>
+<div className="app-container">
 
-      <p>Upload an image & remove its background</p>
+  <h1 className="app-title">
+    🪄 AI Background Remover
+  </h1>
+
+  <p className="app-subtitle">
+    Upload an image and remove its background using AI
+  </p>
 
       <UploadBox
         onFileSelect={handleFileSelect}
@@ -151,8 +154,8 @@ function App() {
 
       <ImagePreview file={file} />
 
-      {file && <p>Selected: {file.name}</p>}
-      <imageInfo file = {file} />
+  
+      <ImageInfo file={file} />
 
       <button
         onClick={removeBackground}
@@ -160,14 +163,7 @@ function App() {
       >
         {loading ? "Processing..." : "Remove Background"}
       </button>
-      {file && (
-  <button
-    onClick={clearAll}
-    disabled={loading}
-  >
-    🧹 Clear
-  </button>
-)}
+     
 
 
       {loading && (
@@ -181,19 +177,23 @@ function App() {
       )}
 
       {error && (
-        <p>{error}</p>
+       <div className="error-message">
+        {error}
+        </div>
       )}
 
-      {result && (
+      {result && file && (
         <div>
           <h2>Result:</h2>
 
-        <BeforeAfterSlider
-  before={URL.createObjectURL(file)}
+       <BeforeAfterSlider
+  before={preview}
   after={result}
 />
-
-          <br />
+  {processingTime && (
+            <p>Processing time: {processingTime} seconds</p>
+          )}
+        
 
           <button
             onClick={downloadImage}
@@ -201,10 +201,13 @@ function App() {
           >
             ⬇️ Download PNG
           </button>
-
-          {processingTime && (
-            <p>Processing time: {processingTime} seconds</p>
-          )}
+<button
+  onClick={clearImage}
+  className="reset-button"
+>
+  🔄 Start Over
+</button>
+        
         </div>
       )}
     </div>

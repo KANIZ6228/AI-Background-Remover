@@ -1,84 +1,135 @@
-import{useState} from "react";
+
+import { useState } from "react";
+
 function UploadBox({ onFileSelect, file, onClear }) {
-    const[dragging,setDragging] = useState(false);
 
-    const handleFileChange = (event) => {
+  const [dragging, setDragging] = useState(false);
 
-        const selectedFile = event.target.files[0];
+  // Check whether the selected file is valid
+  const validateFile = (selectedFile) => {
 
-        if(selectedFile){
-            onFileSelect(selectedFile);
-        }
-    };
-    const handleDragOver = (event) => {
-        event.preventDefault()
-        setDragging(true);
-    };
-    const handleDrop = (event) => {
-        event.preventDefault();
-        setDragging(false);
-        const selectedFile = event.dataTransfer.files[0];
-        if(selectedFile){
-            onFileSelect(selectedFile);
-        }
-    };
-    const handleDragLeave = () => {
-        setDragging(false);
-    };
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
 
-    
-return (
-  <div
-    className={`upload-box ${dragging ? "dragging" : ""}`}
-    onDragOver={handleDragOver}
-    onDragLeave={handleDragLeave}
-    onDrop={handleDrop}
-  >
+    const maxSize = 10 * 1024 * 1024;
 
-<div className="upload-icon">
-  {file ? "🖼️" : "📁"}
-</div>
+    if (!allowedTypes.includes(selectedFile.type)) {
+      alert("❌ Only JPG, PNG and WEBP images are allowed.");
+      return false;
+    }
 
-<h2>
-  {dragging
-    ? "Drop your image here!"
-    : file
-      ? file.name
-      : "Drag & Drop your image"}
-</h2>
+    if (selectedFile.size > maxSize) {
+      alert("❌ Image must be smaller than 10 MB.");
+      return false;
+    }
 
-<p>
-  {file
-    ? `${(file.size / (1024 * 1024)).toFixed(2)} MB`
-    : "or click the button below to browse"}
-</p>
+    return true;
+  };
 
-    <input
-      id="fileInput"
-      type="file"
-      accept="image/jpeg,image/png,image/webp"
-      onChange={handleFileChange}
-    />
-<label htmlFor="fileInput">
-  {file ? "Choose Another" : "Choose Image"}
-</label>
-{file && (
-  <button
-    type="button"
-    className="clear-button"
-    onClick={onClear}
-  >
-    ✕ Clear
-  </button>
-)}
-    <p className="upload-hint">
-      JPG • PNG • WEBP
-      <br />
-      Maximum size: 10 MB
-    </p>
 
-  </div>
-);
+  // When user chooses an image
+  const handleFileChange = (event) => {
 
+    const selectedFile = event.target.files[0];
+
+    if (!selectedFile) {
+      return;
+    }
+
+    if (!validateFile(selectedFile)) {
+      return;
+    }
+
+    onFileSelect(selectedFile);
+  };
+
+
+  // When user drags an image over the box
+  const handleDragOver = (event) => {
+
+    event.preventDefault();
+
+    setDragging(true);
+  };
+
+
+  // When user drops an image
+  const handleDrop = (event) => {
+
+    event.preventDefault();
+
+    setDragging(false);
+
+    const selectedFile = event.dataTransfer.files[0];
+
+    if (!selectedFile) {
+      return;
+    }
+
+    if (!validateFile(selectedFile)) {
+      return;
+    }
+
+    onFileSelect(selectedFile);
+  };
+
+
+  // When user moves the file away from the box
+  const handleDragLeave = () => {
+
+    setDragging(false);
+  };
+
+
+  return (
+    <div
+      className={`upload-box ${dragging ? "dragging" : ""}`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+
+      <h2>📁 Drag & Drop your image</h2>
+
+      <p>or choose a file from your computer</p>
+
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        onChange={handleFileChange}
+      />
+
+
+      <label htmlFor="fileInput">
+        Choose Image
+      </label>
+
+
+      {/* Show selected file */}
+      {file && (
+        <div className="selected-file">
+
+          <p>
+            ✅ Selected: {file.name}
+          </p>
+
+          <button
+            onClick={onClear}
+          >
+            🧹 Clear
+          </button>
+
+        </div>
+      )}
+
+    </div>
+  );
 }
-    export default UploadBox;
+
+export default UploadBox;
+
