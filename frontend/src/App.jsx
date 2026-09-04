@@ -1,34 +1,24 @@
 import { useState } from "react";
 import UploadBox from "./components/UploadBox";
 import ImagePreview from "./components/ImagePreview";
-import BeforeAfterSlider from "./components/BeforeAfterSlider";
 import ImageInfo from "./components/ImageInfo";
 import "./App.css";
 
 function App() {
-
-const [file, setFile] = useState(null);
-const [preview, setPreview] = useState(null);
+  const [processingTime, setProcessingTime] = useState(null);
+  const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const[processingTime,setProcessingTime]= useState(null);
- 
 
   const validateFile = (selectedFile) => {
-    const allowTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp"
-    ];
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
 
-    if (!allowTypes.includes(selectedFile.type)) {
+    if (!allowedTypes.includes(selectedFile.type)) {
       return "Please upload a JPG, PNG or WEBP image.";
     }
 
-    const maxSize = 10 * 1024 * 1024;
-
-    if (selectedFile.size > maxSize) {
+    if (selectedFile.size > 10 * 1024 * 1024) {
       return "Image must be smaller than 10MB";
     }
 
@@ -36,17 +26,15 @@ const [preview, setPreview] = useState(null);
   };
 
   const clearImage = () => {
- setError(null);
-setFile(selectedFile);
-setPreview(URL.createObjectURL(selectedFile));
-setResult(null);
+    setFile(null);
+    setResult(null);
+    setError(null);
+    setProcessingTime(null);
+    setLoading(false);
   };
+
   const handleFileSelect = (selectedFile) => {
     if (!selectedFile) {
-      setError(null);
-setFile(selectedFile);
-setPreview(URL.createObjectURL(selectedFile));
-setResult(null);
       return;
     }
 
@@ -62,22 +50,20 @@ setResult(null);
     setError(null);
     setFile(selectedFile);
     setResult(null);
+    setProcessingTime(null);
   };
 
   const removeBackground = async () => {
     if (!file) {
-      alert("Please select an image first!!!");
+      setError("Please select an image first.");
       return;
     }
 
     setLoading(true);
     setError(null);
 
-    const startTime = Date.now();
-
     try {
       const formData = new FormData();
-
       formData.append("file", file);
 
       const response = await fetch(
@@ -87,36 +73,22 @@ setResult(null);
           body: formData,
         }
       );
-if (!response.ok) {
 
-  const errorData = await response.json();
+      if (!response.ok) {
+        throw new Error("Failed to remove background");
+      }
 
-  throw new Error(
-    errorData.detail || "Failed to remove background"
-  );
-}
-
-const backendProcessingTime =
-  response.headers.get("X-Processing-Time");
-
-setProcessingTime(backendProcessingTime);
+      const processingTimeHeader = response.headers.get("X-Processing-Time");
+      if (processingTimeHeader) {
+        setProcessingTime(processingTimeHeader);
+      }
 
       const blob = await response.blob();
-
-      const imageUrl = URL.createObjectURL(blob);
-
-      const endTime = Date.now();
-
-      const timeTaken = ((endTime - startTime) / 1000).toFixed(2);
-
-      setProcessingTime(timeTaken);
-      setResult(imageUrl);
-
-    } catch (error) {
-      console.error(error);
-      setError("Something went wrong while removing the background. Please try again.");
-    }
-    finally {
+      setResult(URL.createObjectURL(blob));
+    } catch (requestError) {
+      console.error(requestError);
+      setError(requestError.message || "An unexpected error occurred.");
+    } finally {
       setLoading(false);
     }
   };
@@ -127,87 +99,61 @@ setProcessingTime(backendProcessingTime);
     }
 
     const link = document.createElement("a");
-
     link.href = result;
-
     link.download = "background-removed.png";
-
     link.click();
   };
 
   return (
-<div className="app-container">
-
-  <h1 className="app-title">
-    🪄 AI Background Remover
-  </h1>
-
-  <p className="app-subtitle">
-    Upload an image and remove its background using AI
-  </p>
+    <div className="app-container">
+      <h1 className="app-title">🪄 AI Background Remover</h1>
+      <p className="app-subtitle">
+        Upload an image and remove its background using AI
+      </p>
 
       <UploadBox
         onFileSelect={handleFileSelect}
         file={file}
         onClear={clearImage}
       />
-
       <ImagePreview file={file} />
-
-  
       <ImageInfo file={file} />
 
-      <button
-        onClick={removeBackground}
-        disabled={loading}
-      >
+      <button onClick={removeBackground} disabled={loading || !file}>
         {loading ? "Processing..." : "Remove Background"}
       </button>
-     
-
 
       {loading && (
         <div className="processing">
           <div className="spinner"></div>
-
           <h3>Removing background...</h3>
-
           <p>Please wait a moment.</p>
         </div>
       )}
 
-      {error && (
-       <div className="error-message">
-        {error}
-        </div>
-      )}
+      {error && <div className="error-message">❌ {error}</div>}
 
-      {result && file && (
-        <div>
-          <h2>Result:</h2>
+      {result && (
+        <div className="result-section">
+          <h2>✨ Background Removed!</h2>
+          <div className="result-image-container">
+            <img
+              src={result}
+              alt="Background Removed Result"
+              className="result-image"
+            />
+          </div>
 
-       <BeforeAfterSlider
-  before={preview}
-  after={result}
-/>
-  {processingTime && (
+          {processingTime && (
             <p>Processing time: {processingTime} seconds</p>
           )}
-        
 
-          <button
-            onClick={downloadImage}
-            className="download-button"
-          >
+          <button onClick={downloadImage} className="download-button">
             ⬇️ Download PNG
           </button>
-<button
-  onClick={clearImage}
-  className="reset-button"
->
-  🔄 Start Over
-</button>
-        
+          <button onClick={clearImage} className="reset-button">
+            🔄 Start Over
+          </button>
         </div>
       )}
     </div>

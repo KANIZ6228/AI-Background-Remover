@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from rembg import remove, new_session
@@ -43,41 +43,49 @@ def home():
 
 
 @app.post("/remove-background")
-async def remove_background(file: UploadFile = File(...)):
+async def remove_background(
+    file: UploadFile = File(...),
+    background_color: str = Form("transparent")
+):
 
-    # Check file type
     if file.content_type not in ALLOWED_TYPES:
         raise HTTPException(
             status_code=400,
             detail="Only JPG, PNG & WEBP images are allowed."
         )
 
-    # Read uploaded file
     contents = await file.read()
 
-    # Check file size
     if len(contents) > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=413,
             detail="File size exceeds the maximum limit of 10MB."
         )
-
-    # Start timer
     start_time = time.time()
 
-    # Open image using the bytes we already read
-    input_image = Image.open(io.BytesIO(contents))
+    input_image = Image.open(
+        io.BytesIO(contents)
+    )
 
-    # Make image smaller to improve processing speed
     input_image.thumbnail((800, 800))
 
-    # Remove background using U2NetP
     output = remove(
         input_image,
         session=session
     )
+    if background_color != "transparent":
 
-    # Save result into memory
+         background = Image.new(
+        "RGBA",
+        output.size,
+        background_color
+    )
+
+    output = Image.alpha_composite(
+        background,
+        output
+    )
+
     output_bytes = io.BytesIO()
 
     output.save(
@@ -85,15 +93,15 @@ async def remove_background(file: UploadFile = File(...)):
         format="PNG"
     )
 
-    # Calculate processing time
     processing_time = time.time() - start_time
 
-    # Return PNG image
     return Response(
         content=output_bytes.getvalue(),
         media_type="image/png",
         headers={
-            "X-Processing-Time": str(round(processing_time, 2))
+            "X-Processing-Time": str(
+                round(processing_time, 2)
+            )
         }
     )
 

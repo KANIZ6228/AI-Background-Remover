@@ -13,9 +13,9 @@ return(
 
 
         <img
-        src={imageUrl}
-        alt="Selected"
-        width="400"
+src={imageUrl}
+ alt="Original uploaded image"
+  className="preview-image"
         />
     </div>
 );
