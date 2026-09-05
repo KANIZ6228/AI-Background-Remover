@@ -168,9 +168,25 @@ function App() {
     >
       Green
     </button>
+    <label className="custom-color">
+  🌈 Custom Color:
+
+  <input
+    type="color"
+    value={
+      backgroundColor === "transparent"
+        ? "#ffffff"
+        : backgroundColor
+    }
+    onChange={(event) =>
+      setBackgroundColor(event.target.value)
+    }
+  />
+</label>
 
   </div>
 )}
+
 
       <button onClick={removeBackground} disabled={loading || !file}>
         {loading ? "Processing..." : "Remove Background"}

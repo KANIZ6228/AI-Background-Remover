@@ -397,3 +397,25 @@ button {
   background: green;
   color: white;
 }
+.custom-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 15px;
+
+  font-weight: bold;
+}
+
+.custom-color input {
+  width: 50px;
+  height: 40px;
+
+  padding: 2px;
+
+  border: 1px solid #ccc;
+  border-radius: 6px;
+
+  cursor: pointer;
+}
