@@ -10,6 +10,7 @@ function App() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+   const [backgroundColor, setBackgroundColor] = useState("transparent");
 
   const validateFile = (selectedFile) => {
     const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -31,6 +32,7 @@ function App() {
     setError(null);
     setProcessingTime(null);
     setLoading(false);
+    setBackgroundColor("transparent");
   };
 
   const handleFileSelect = (selectedFile) => {
@@ -65,6 +67,7 @@ function App() {
     try {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("background_color", backgroundColor);
 
       const response = await fetch(
         "http://127.0.0.1:8000/remove-background",
@@ -118,6 +121,56 @@ function App() {
       />
       <ImagePreview file={file} />
       <ImageInfo file={file} />
+
+      {file && (
+  <div className="background-options">
+
+    <h3>🎨 Choose Background</h3>
+
+    <button
+      onClick={() => setBackgroundColor("transparent")}
+      className="color-option"
+    >
+      Transparent
+    </button>
+
+    <button
+      onClick={() => setBackgroundColor("white")}
+      className="color-option white"
+    >
+      White
+    </button>
+
+    <button
+      onClick={() => setBackgroundColor("black")}
+      className="color-option black"
+    >
+      Black
+    </button>
+
+    <button
+      onClick={() => setBackgroundColor("red")}
+      className="color-option red"
+    >
+      Red
+    </button>
+
+    <button
+      onClick={() => setBackgroundColor("blue")}
+      className="color-option blue"
+    >
+      Blue
+    </button>
+
+    <button
+      onClick={() => setBackgroundColor("green")}
+      className="color-option green"
+    >
+      Green
+    </button>
+
+  </div>
+)}
 
       <button onClick={removeBackground} disabled={loading || !file}>
         {loading ? "Processing..." : "Remove Background"}

@@ -73,18 +73,19 @@ async def remove_background(
         input_image,
         session=session
     )
+
     if background_color != "transparent":
 
-         background = Image.new(
-        "RGBA",
-        output.size,
-        background_color
-    )
+        background = Image.new(
+            "RGBA",
+            output.size,
+            background_color
+        )
 
-    output = Image.alpha_composite(
-        background,
-        output
-    )
+        output = Image.alpha_composite(
+            background,
+            output
+        )
 
     output_bytes = io.BytesIO()
 

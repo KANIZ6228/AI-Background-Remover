@@ -344,3 +344,56 @@ button {
 
   object-fit: contain;
 }
+.background-options {
+  margin: 25px auto;
+  padding: 20px;
+
+  max-width: 600px;
+
+  background: white;
+
+  border-radius: 12px;
+}
+
+.background-options h3 {
+  margin-top: 0;
+}
+
+.color-option {
+  margin: 5px;
+  padding: 10px 18px;
+
+  border: 2px solid #ccc;
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.color-option:hover {
+  transform: scale(1.05);
+}
+
+.color-option.white {
+  background: white;
+  color: #222;
+}
+
+.color-option.black {
+  background: black;
+  color: white;
+}
+
+.color-option.red {
+  background: red;
+  color: white;
+}
+
+.color-option.blue {
+  background: blue;
+  color: white;
+}
+
+.color-option.green {
+  background: green;
+  color: white;
+}
