@@ -107,12 +107,20 @@ function App() {
     link.click();
   };
 
-  return (
-    <div className="app-container">
-      <h1 className="app-title">🪄 AI Background Remover</h1>
+return (
+  <div className="app-container">
+
+    <section className="hero-section">
+
+      <h1 className="app-title">
+        🪄 AI Background Remover
+      </h1>
+
       <p className="app-subtitle">
-        Upload an image and remove its background using AI
+        Remove image backgrounds instantly with AI
       </p>
+
+    </section>
 
       <UploadBox
         onFileSelect={handleFileSelect}
@@ -188,9 +196,14 @@ function App() {
 )}
 
 
-      <button onClick={removeBackground} disabled={loading || !file}>
-        {loading ? "Processing..." : "Remove Background"}
-      </button>
+<button
+  onClick={removeBackground}
+  disabled={loading}
+  className="remove-button"
+>
+  {loading ? "Processing..." : "✨ Remove Background"}
+</button>
+
 
       {loading && (
         <div className="processing">
