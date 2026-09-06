@@ -70,7 +70,7 @@ function App() {
       formData.append("background_color", backgroundColor);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/remove-background",
+        "https://background-remover-api-1eet.onrender.com",
         {
           method: "POST",
           body: formData,
