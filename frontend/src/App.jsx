@@ -69,13 +69,13 @@ function App() {
       formData.append("file", file);
       formData.append("background_color", backgroundColor);
 
-      const response = await fetch(
-        "https://background-remover-api-1eet.onrender.com",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+const response = await fetch(
+  "https://background-remover-api-1eet.onrender.com/remove-background",
+  {
+    method: "POST",
+    body: formData,
+  }
+);
 
       if (!response.ok) {
         throw new Error("Failed to remove background");
