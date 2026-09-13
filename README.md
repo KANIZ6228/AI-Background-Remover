@@ -33,11 +33,11 @@
 
 ## 🎥 Demo Video
 
-> Add a short demo video or GIF showing the complete workflow.
+>  a short demo video is added showing the complete workflow.
 
 **Upload → AI Processing → Background Removed → Download**
 
-[▶️ Watch Demo](ADD_YOUR_VIDEO_LINK_HERE)
+[▶️ Watch Demo](https://youtu.be/mrgyjmKdi_A)
 
 ---
 
