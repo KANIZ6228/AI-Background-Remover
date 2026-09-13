@@ -11,13 +11,9 @@
 ---
 
 
-🎥 **Demo Video:** [Add your demo video link here]
-
----
-
 ## 📸 Screenshots
 
-> Add your project screenshots below to showcase the interface and background removal result.
+> project's screenshots are added below to showcase the interface and background removal result.
 
 ### Main Interface
 
@@ -29,10 +25,10 @@
 
 ### Background Removal Result(Colorful customised)
 
-![Background Removal Result](./screenshots/colorful customised background.png)
+![Background Removal Result](./screenshots/colorful_customised_background.png)
 
 ### Background Removal Result(Transparent)
-![Background Removal Result](./screenshots/transparent background.png)
+![Background Removal Result](./screenshots/transparent_background.png)
 ---
 
 ## 🎥 Demo Video
