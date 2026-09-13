@@ -1,90 +1,276 @@
-# AI Background Remover
+# ✨ AI Background Remover
 
-> A focused full-stack image utility that removes backgrounds with an AI segmentation model and returns a downloadable PNG.
+> A full-stack AI image processing application that automatically removes image backgrounds using AI segmentation and returns a transparent PNG ready for download.
 
-![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab?logo=python&logoColor=white)
+![React](https://img.shields.io/badge/React-19-149eca?logo=react\&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi\&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab?logo=python\&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-Frontend-646cff?logo=vite\&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)
 
-## Why This Project
+---
 
-This project demonstrates a complete product flow rather than a standalone model script:
+## 🚀 Live Demo
 
-- Responsive React interface with drag-and-drop and file-picker uploads
-- Client-side validation for supported formats and the 10 MB size limit
-- FastAPI endpoint for multipart image processing
-- `rembg` with the lightweight `u2netp` model for background segmentation
-- Transparent or solid-color output options
-- Processing-time feedback and one-click PNG download
-- Separate local and serverless Python entry points for flexible deployment
+🔗 **Live Application:** [Add your Vercel deployment link here]
 
-## Demo Flow
+🎥 **Demo Video:** [Add your demo video link here]
+
+---
+
+## 📸 Screenshots
+
+> Add your project screenshots below to showcase the interface and background removal result.
+
+### Main Interface
+
+![Main Interface](./screenshots/home.png)
+
+### Image Upload
+
+![Image Upload](./screenshots/upload.png)
+
+### Background Removal Result
+
+![Background Removal Result](./screenshots/result.png)
+
+---
+
+## 🎥 Demo Video
+
+> Add a short demo video or GIF showing the complete workflow.
+
+**Upload → AI Processing → Background Removed → Download**
+
+[▶️ Watch Demo](ADD_YOUR_VIDEO_LINK_HERE)
+
+---
+
+## 🎯 Project Overview
+
+AI Background Remover is a full-stack web application that allows users to upload an image and automatically remove its background using an AI segmentation model.
+
+The project demonstrates practical experience in:
+
+* Full-stack web development
+* AI/ML model integration
+* REST API development
+* Image processing
+* React frontend development
+* File validation and handling
+* Frontend/backend integration
+* Serverless deployment
+
+The application follows a simple workflow:
 
 ```text
-Select image -> Validate file -> Upload multipart form -> AI segmentation
-     ^                                                        |
-     +------------ Preview result and download PNG <----------+
+Upload → Validate → AI Processing → Preview Result → Download PNG
 ```
 
-The included `pic.jpg` is a small sample image for local testing.
+---
 
-## Architecture
+## ✨ Key Features
+
+* 🖼️ Drag-and-drop image upload
+* 📁 File picker support
+* 🤖 AI-powered background segmentation
+* ⚡ FastAPI backend for image processing
+* 🔍 Client-side file validation
+* 📦 Supports JPG, PNG, and WEBP
+* 🚫 10 MB upload size limit
+* 🔄 Loading and processing states
+* ⏱️ Processing-time feedback
+* 🧾 Image metadata display
+* 🖼️ Transparent PNG output
+* ⬇️ One-click image download
+* 📱 Responsive React interface
+* ☁️ Vercel/serverless deployment support
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React 19
+* Vite
+* JavaScript
+* CSS
+* HTML5 Drag & Drop API
+
+### Backend
+
+* Python
+* FastAPI
+* Uvicorn
+* Pillow
+* rembg
+
+### AI / Image Processing
+
+* U2NetP
+* AI-based image segmentation
+* Background removal
+* PNG transparency processing
+
+### Development & Deployment
+
+* Git & GitHub
+* VS Code
+* REST API
+* Vercel
+* Serverless deployment
+
+---
+
+## 🧠 How It Works
 
 ```text
-Browser (React + Vite)
-	|
-	| POST /api/remove-background
-	v
-Vite development proxy (local only)
-	|
-	v
-FastAPI application
-	|
-	+-- validates MIME type and file size
-	+-- resizes input to a maximum of 800 x 800 pixels
-	+-- runs rembg/u2netp inference
-	+-- composites an optional background color
-	+-- returns image/png and X-Processing-Time
+┌──────────────────────┐
+│      User Upload     │
+│   JPG / PNG / WEBP   │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│   File Validation    │
+│  Type + Size Check   │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│     FastAPI API      │
+│ Multipart Processing │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│    rembg + U2NetP    │
+│   AI Segmentation    │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│  Transparent PNG     │
+│      Generated       │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│ Preview + Download   │
+└──────────────────────┘
 ```
 
-### Repository Layout
+---
+
+## 🏗️ Architecture
 
 ```text
-backend/main.py              Local FastAPI server
-api/index.py                 Vercel/serverless FastAPI entry point
-frontend/src/App.jsx         Application state and processing workflow
-frontend/src/components/     Upload, preview, and image metadata UI
-frontend/vite.config.js      Local /api proxy to FastAPI
-requirements.txt             Python dependencies
-pic.jpg                      Local demo input
+Browser
+   │
+   │ React + Vite
+   ▼
+Frontend
+   │
+   │ POST /api/remove-background
+   ▼
+Vite Development Proxy
+   │
+   ▼
+FastAPI Backend
+   │
+   ├── Validate file type
+   ├── Validate file size
+   ├── Resize image
+   │
+   ▼
+rembg
+   │
+   ▼
+U2NetP AI Segmentation Model
+   │
+   ▼
+Pillow Image Processing
+   │
+   ▼
+PNG Response
+   │
+   ▼
+React Result Preview
 ```
 
-The local backend exposes `POST /remove-background`; the Vite proxy maps the browser request `/api/remove-background` to that route. The Vercel entry point exposes `/api/remove-background` directly for serverless deployments.
+---
 
-## Run Locally
+## 📂 Project Structure
 
-### 1. Backend
+```text
+ai-background-remover/
+│
+├── backend/
+│   └── main.py
+│
+├── api/
+│   └── index.py
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── UploadBox.jsx
+│   │   │   ├── ImagePreview.jsx
+│   │   │   └── ImageInfo.jsx
+│   │   │
+│   │   ├── App.jsx
+│   │   └── App.css
+│   │
+│   └── vite.config.js
+│
+├── requirements.txt
+├── pic.jpg
+└── README.md
+```
 
-Create or activate a Python virtual environment and install dependencies:
+---
+
+## ⚙️ Run Locally
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/KANIZ6228/background-remover.git
+cd background-remover
+```
+
+### 2. Create a Python Virtual Environment
 
 ```powershell
 python -m venv venv
 .\venv\Scripts\Activate.ps1
+```
+
+### 3. Install Backend Dependencies
+
+```powershell
 pip install -r requirements.txt
 ```
 
-Start FastAPI from the backend directory:
+### 4. Start FastAPI
+
+From the project root:
 
 ```powershell
 cd backend
 python -m uvicorn main:app --reload --port 8000
 ```
 
-The API is available at `http://127.0.0.1:8000`.
+Backend:
 
-### 2. Frontend
+```text
+http://127.0.0.1:8000
+```
 
-In a second terminal:
+### 5. Start the Frontend
+
+Open a second terminal:
 
 ```powershell
 cd frontend
@@ -92,54 +278,179 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` in a browser. Keep the backend running while using the upload workflow.
+Frontend:
 
-### Production Build
+```text
+http://localhost:5173
+```
+
+Keep the FastAPI backend running while using the frontend.
+
+---
+
+## 📦 Production Build
 
 ```powershell
 cd frontend
 npm run build
 ```
 
-## API Contract
+The production build is generated in:
+
+```text
+frontend/dist/
+```
+
+---
+
+## 🔌 API Documentation
 
 ### `POST /remove-background`
 
-Accepts `multipart/form-data`:
+Accepts:
 
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `file` | image file | Yes | JPEG, PNG, or WEBP up to 10 MB |
-| `background_color` | string | No | `transparent`, a CSS color name, or a hex color |
+```text
+multipart/form-data
+```
 
-Returns a PNG image. The `X-Processing-Time` response header reports inference duration in seconds.
+### Request
 
-Example:
+| Field        | Type  | Required | Description       |
+| ------------ | ----- | -------- | ----------------- |
+| `file`       | Image | Yes      | JPG, PNG, or WEBP |
+| Maximum size | 10 MB | Yes      | Upload size limit |
+
+### Response
+
+The API returns:
+
+```text
+image/png
+```
+
+The response also includes:
+
+```text
+X-Processing-Time
+```
+
+which reports the image processing duration in seconds.
+
+### Example
 
 ```powershell
 curl.exe -X POST http://127.0.0.1:8000/remove-background `
   -F "file=@pic.jpg" `
-  -F "background_color=transparent" `
   --output background-removed.png
 ```
 
-## Engineering Notes
+---
 
-- The model session is initialized once at startup so requests do not reload the model.
-- Images are resized before inference to control latency and memory usage.
-- The frontend uses a same-origin `/api` request in development, avoiding hard-coded browser API URLs.
-- The project keeps a local FastAPI entry point and a Vercel-compatible entry point so deployment concerns stay separate from the development workflow.
+## 💡 Engineering Highlights
 
-## Future Improvements
+### AI Model Initialization
 
-1. Add automated backend tests for validation, color compositing, and malformed images.
-2. Add frontend component and end-to-end tests for upload, error, loading, and download states.
-3. Move model inference to a background job or worker queue for concurrent production traffic.
-4. Add authentication, rate limiting, and observability before exposing the API publicly.
-5. Add a configurable model provider and optional higher-quality models for professional images.
-6. Add batch processing, image history, and cloud storage integrations.
-7. Add CI checks for formatting, linting, tests, and frontend production builds.
+The `u2netp` model session is initialized once instead of being recreated for every request.
 
-## License
+This reduces unnecessary model-loading overhead during repeated requests.
 
-This project is for demonstration and portfolio use. Review the licenses of `rembg`, its model weights, and any deployment provider before commercial use.
+### Image Resizing
+
+Uploaded images are resized before AI inference to help control:
+
+* Processing time
+* Memory usage
+* Computational cost
+
+### File Validation
+
+The application validates uploaded files before processing, including:
+
+* Supported image formats
+* Maximum file size
+* Invalid upload handling
+
+### Frontend / Backend Separation
+
+The React frontend and FastAPI backend are separated into their own layers, making the application easier to develop, test, and deploy.
+
+### API Integration
+
+The frontend communicates with the backend through a REST API using multipart form-data for image uploads.
+
+### Deployment Architecture
+
+The project includes separate entry points for:
+
+* Local FastAPI development
+* Vercel/serverless deployment
+
+This keeps local development and deployment concerns separated.
+
+---
+
+## 🧩 Challenges & Solutions
+
+| Challenge                                    | Solution                                    |
+| -------------------------------------------- | ------------------------------------------- |
+| AI model inference can be resource-intensive | Used the lightweight U2NetP model           |
+| Large images increase processing cost        | Resize images before inference              |
+| Invalid uploads can cause backend errors     | Added file type and size validation         |
+| Frontend/backend communication               | Implemented REST API with multipart uploads |
+| Different API URLs during development        | Configured Vite `/api` proxy                |
+| Model initialization overhead                | Reused the model session                    |
+| Deployment differences                       | Added a separate serverless API entry point |
+
+---
+
+## 📊 What I Learned
+
+This project gave me practical experience with:
+
+* Integrating AI models into web applications
+* Building REST APIs with FastAPI
+* Handling multipart file uploads
+* Image processing with Pillow
+* React state management
+* Frontend/backend integration
+* API error handling
+* AI inference performance considerations
+* Serverless deployment
+* Structuring a full-stack application
+
+---
+
+## 🔮 Future Improvements
+
+* Automated backend and frontend testing
+* Background job processing for concurrent requests
+* Authentication and rate limiting
+* CI/CD pipeline
+* Batch image processing
+* Image processing history
+* Cloud storage integration
+* Higher-quality segmentation models
+
+---
+
+## 👩‍💻 Author
+
+**Kaniz Fatema**
+
+Computer Science / Software Engineering Student
+Universiti Teknologi Malaysia (UTM)
+
+**Interests:**
+Software Engineering • Full-Stack Development • AI • Automation • Machine Learning
+
+🔗 **GitHub:** [KANIZ6228](https://github.com/KANIZ6228)
+
+🔗 **LinkedIn:** [Kaniz Fatema](https://www.linkedin.com/in/kaniz6228/)
+
+---
+
+## 📄 License
+
+This project is for educational and portfolio purposes.
+
+Review the licenses of `rembg`, its model weights, and any deployment provider before using the project commercially.
