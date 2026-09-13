@@ -10,9 +10,6 @@
 
 ---
 
-## 🚀 Live Demo
-
-🔗 **Live Application:** [Add your Vercel deployment link here]
 
 🎥 **Demo Video:** [Add your demo video link here]
 
@@ -30,10 +27,12 @@
 
 ![Image Upload](./screenshots/upload.png)
 
-### Background Removal Result
+### Background Removal Result(Colorful customised)
 
-![Background Removal Result](./screenshots/result.png)
+![Background Removal Result](./screenshots/colorful customised background.png)
 
+### Background Removal Result(Transparent)
+![Background Removal Result](./screenshots/transparent background.png)
 ---
 
 ## 🎥 Demo Video
@@ -113,15 +112,6 @@ Upload → Validate → AI Processing → Preview Result → Download PNG
 * Background removal
 * PNG transparency processing
 
-### Development & Deployment
-
-* Git & GitHub
-* VS Code
-* REST API
-* Vercel
-* Serverless deployment
-
----
 
 ## 🧠 How It Works
 
