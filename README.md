@@ -6,7 +6,6 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi\&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab?logo=python\&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-Frontend-646cff?logo=vite\&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)
 
 ---
 
@@ -54,7 +53,6 @@ The project demonstrates practical experience in:
 * React frontend development
 * File validation and handling
 * Frontend/backend integration
-* Serverless deployment
 
 The application follows a simple workflow:
 
@@ -64,22 +62,21 @@ Upload → Validate → AI Processing → Preview Result → Download PNG
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-* 🖼️ Drag-and-drop image upload
-* 📁 File picker support
-* 🤖 AI-powered background segmentation
-* ⚡ FastAPI backend for image processing
-* 🔍 Client-side file validation
-* 📦 Supports JPG, PNG, and WEBP
-* 🚫 10 MB upload size limit
-* 🔄 Loading and processing states
-* ⏱️ Processing-time feedback
-* 🧾 Image metadata display
-* 🖼️ Transparent PNG output
-* ⬇️ One-click image download
-* 📱 Responsive React interface
-* ☁️ Vercel/serverless deployment support
+*  Drag-and-drop image upload
+*  File picker support
+*  AI-powered background segmentation
+*  FastAPI backend for image processing
+*  Client-side file validation
+*  Supports JPG, PNG, and WEBP
+*  10 MB upload size limit
+*  Loading and processing states
+*  Processing-time feedback
+*  Image metadata display
+*  Transparent PNG output
+* ⬇ One-click image download
+*  Responsive React interface
 
 ---
 
@@ -364,15 +361,6 @@ The React frontend and FastAPI backend are separated into their own layers, maki
 
 The frontend communicates with the backend through a REST API using multipart form-data for image uploads.
 
-### Deployment Architecture
-
-The project includes separate entry points for:
-
-* Local FastAPI development
-* Vercel/serverless deployment
-
-This keeps local development and deployment concerns separated.
-
 ---
 
 ## 🧩 Challenges & Solutions
@@ -385,7 +373,7 @@ This keeps local development and deployment concerns separated.
 | Frontend/backend communication               | Implemented REST API with multipart uploads |
 | Different API URLs during development        | Configured Vite `/api` proxy                |
 | Model initialization overhead                | Reused the model session                    |
-| Deployment differences                       | Added a separate serverless API entry point |
+
 
 ---
 
@@ -401,7 +389,6 @@ This project gave me practical experience with:
 * Frontend/backend integration
 * API error handling
 * AI inference performance considerations
-* Serverless deployment
 * Structuring a full-stack application
 
 ---
@@ -423,8 +410,10 @@ This project gave me practical experience with:
 
 **Kaniz Fatema**
 
-Computer Science / Software Engineering Student
+Computer Science (Software Engineering Student
+
 Universiti Teknologi Malaysia (UTM)
+)
 
 **Interests:**
 Software Engineering • Full-Stack Development • AI • Automation • Machine Learning
